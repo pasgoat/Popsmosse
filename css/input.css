@@ -1,0 +1,26 @@
+.username-input, .code-input {
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.username-input:focus, .code-input:focus {
+    border-color: #ff7c7c;
+    box-shadow: 0 0 5px rgba(255,124,124, 0.5);
+}
+
+.username-input {
+    padding: 10px 15px;
+}
+
+.code-input {
+    height: 47px;
+    padding: 12px 15px;
+}
+
+

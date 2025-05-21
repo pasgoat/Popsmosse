@@ -1,65 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
-    setupAnswerListener();
+    setupQuiz();
 });
 
-function setupAnswerListener() {
-    const answerInput = document.getElementById("answer");
+let currentQuestionIndex = 0;
 
-    if (!answerInput) return;
+const questions = [
+    { image: "question1.png", answer: "ozil" },
+    { image: "question2.png", answer: "jinping" },
+    { image: "question3.png", answer: "djokovic" },
+    { image: "question4.png", answer: "brady" }
+];
+
+function setupQuiz() {
+    const answerInput = document.getElementById("answer");
+    const questionTitle = document.querySelector(".question h2");
+    const questionImage = document.querySelector(".question img");
+
+    if (!answerInput || !questionTitle || !questionImage) return;
+
+    answerInput.focus();
 
     answerInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            checkAnswer(this);
+            checkAnswer(this, questionTitle, questionImage);
         }
     });
+
+    loadQuestion(questionTitle, questionImage);
 }
 
-function checkAnswer(inputElement) {
+function loadQuestion(titleElement, imageElement) {
+    const current = questions[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+    titleElement.textContent = `Who is this ?`;
+    imageElement.src = `../questions/${current.image}`;
+    imageElement.alt = `Question ${questionNumber}`;
+}
+
+function checkAnswer(inputElement, titleElement, imageElement) {
     const userAnswer = inputElement.value.trim().toLowerCase();
-    const answers = [
-        { number: "1", answer: "ozil" }
-    ];
 
-    const correctAnswer = answers.find(a => a.number === "1");
+    if (currentQuestionIndex >= questions.length) return;
 
-    if (correctAnswer) {
-        const wordPattern = new RegExp("\\b" + correctAnswer.answer.toLowerCase() + "\\b");
+    const correctAnswer = questions[currentQuestionIndex].answer.toLowerCase();
+    const pattern = new RegExp(`\\b${correctAnswer}\\b`, "i");
 
-        if (wordPattern.test(userAnswer)) {
-            lockInput(inputElement, "You found the correct answer");
-            return;
+    if (pattern.test(userAnswer)) {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+            inputElement.value = "";
+            loadQuestion(titleElement, imageElement);
+        } else {
+            lockInput(inputElement, "You found all the correct answers");
         }
+    } else {
+        inputElement.value = "";
     }
-
-    inputElement.value = "";
 }
 
 function lockInput(inputElement, message) {
-    inputElement.disabled = true;             // Lock the input
-    inputElement.value = message;             // Show success message
-    inputElement.style.color = "green";       // Optional styling
+    inputElement.disabled = true;
+    inputElement.value = message;
+    inputElement.style.color = "green";
     inputElement.style.fontWeight = "bold";
 }
-
-function setupAnswerListener() {
-    const answerInput = document.getElementById("answer");
-
-    if (!answerInput) return;
-
-    answerInput.focus(); // ✅ Automatically focus the input box
-
-    answerInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            checkAnswer(this);
-        }
-    });
-}
-
-document.addEventListener("click", () => {
-    const input = document.getElementById("answer");
-    if (input && !input.disabled) {
-        input.focus();
-    }
-});
+zoeinsf

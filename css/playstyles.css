@@ -87,3 +87,13 @@ a:hover {
     font-size: 24px;
     text-transform: uppercase
 }
+
+.answer:hover {
+    background-color: #99e6a2;
+}
+
+.logo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}

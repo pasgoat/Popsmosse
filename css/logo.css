@@ -1,0 +1,12 @@
+.home-logo {
+    height: 120px;
+    margin-bottom: 10px;
+}
+
+.nav-logo{
+    height: 50px;
+    width: auto; 
+    max-width: 150px;
+    display: block;  
+}
+

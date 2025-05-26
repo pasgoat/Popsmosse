@@ -8,7 +8,11 @@ const questions = [
     { image: "question1.png", answer: "ozil" },
     { image: "question2.png", answer: "jinping" },
     { image: "question3.png", answer: "djokovic" },
-    { image: "question4.png", answer: "brady" }
+    { image: "question4.png", answer: "brady" },
+    { image: "question6.png", answer: "sakho" },
+    { image: "question7.png", answer: "singe" },
+    { image: "question5.png", answer: "hitler" },
+    { image: "question8.png", answer: "georges" }
 ];
 
 function setupQuiz() {

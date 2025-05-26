@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     setupQuiz();
-
-    const username = getUsername();
-    const players = [{ name: username, score: 0 }];
-    updateLeaderboard(players);
+    displayWelcomeMessage();
 });
-
 
 let currentQuestionIndex = 0;
 
@@ -17,38 +13,33 @@ const questions = [
     { image: "question6.png", answer: "sakho" },
     { image: "question7.png", answer: "singe" },
     { image: "question5.png", answer: "hitler" },
-    { image: "question8.png", answer: "jorges" }
+    { image: "question8.png", answer: "georges" }
 ];
 
 function setupQuiz() {
-
     const answerInput = document.getElementById("answer");
     const questionTitle = document.querySelector(".question h2");
     const questionImage = document.querySelector(".question img");
 
     if (!answerInput || !questionTitle || !questionImage) {
-        console.error("Missing quiz elements");
+        console.error("Missing elements needed for quiz setup");
         return;
     }
 
     answerInput.focus();
-    answerInput.addEventListener("keydown", function (event) {
+
+    // Remove previous listeners if any, then add the keydown listener
+    answerInput.onkeydown = function(event) {
         if (event.key === "Enter") {
-            console.log("Enter key pressed");
             event.preventDefault();
-            console.log("Enter pressed, checking answer...");
             checkAnswer(this, questionTitle, questionImage);
         }
-    });
+    };
 
     loadQuestion(questionTitle, questionImage);
 }
 
 function loadQuestion(titleElement, imageElement) {
-    if (currentQuestionIndex >= questions.length) {
-        console.log("No more questions");
-        return;
-    }
     const current = questions[currentQuestionIndex];
     const questionNumber = currentQuestionIndex + 1;
     titleElement.textContent = `Who is this?`;
@@ -58,18 +49,14 @@ function loadQuestion(titleElement, imageElement) {
 
 function checkAnswer(inputElement, titleElement, imageElement) {
     const userAnswer = inputElement.value.trim().toLowerCase();
-    console.log(`User answered: "${userAnswer}"`);
 
-    if (currentQuestionIndex >= questions.length) {
-        console.log("Quiz complete");
-        return;
-    }
+    if (currentQuestionIndex >= questions.length) return;
 
     const correctAnswer = questions[currentQuestionIndex].answer.toLowerCase();
+    // Use word boundaries to match the word, case insensitive
     const pattern = new RegExp(`\\b${correctAnswer}\\b`, "i");
 
     if (pattern.test(userAnswer)) {
-        console.log("Correct answer!");
         currentQuestionIndex++;
 
         if (currentQuestionIndex < questions.length) {
@@ -79,7 +66,7 @@ function checkAnswer(inputElement, titleElement, imageElement) {
             lockInput(inputElement, "You found all the correct answers!");
         }
     } else {
-        console.log("Incorrect answer, try again.");
+        // Clear input if incorrect, no message shown
         inputElement.value = "";
     }
 }
@@ -89,6 +76,14 @@ function lockInput(inputElement, message) {
     inputElement.value = message;
     inputElement.style.color = "green";
     inputElement.style.fontWeight = "bold";
+}
+
+function displayWelcomeMessage() {
+    const username = getUsername();
+    const welcome = document.querySelector(".welcome");
+    if (welcome) {
+        welcome.textContent = `Welcome, ${username}!`;
+    }
 }
 
 function getUsername() {
@@ -109,3 +104,14 @@ function updateLeaderboard(players) {
         list.appendChild(li);
     });
 }
+
+// Initialize leaderboard with the user from localStorage
+document.addEventListener("DOMContentLoaded", () => {
+    const username = getUsername();
+
+    const players = [
+        { name: username, score: 0 }
+    ];
+
+    updateLeaderboard(players);
+});

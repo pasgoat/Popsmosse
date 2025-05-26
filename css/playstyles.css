@@ -27,10 +27,6 @@
     overflow-y: auto;
 }
 
-.spacer {
-    flex: 1;
-}
-
 .question {
     flex: 1;
     margin-bottom: 40px;
@@ -42,4 +38,70 @@
     display: flex;
     justify-content: left;
     align-items: center;
+}
+
+.main-content {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 150px); /* adjusts for the navbar height */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Quiz (left side - 2/3) */
+.quiz {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(256, 212, 124);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Leaderboard (right side - 1/3) */
+.leaderboard {
+    flex: 1;
+    background-color: #ed9595;
+    border-left: 2px solid #ccc;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
+}
+
+/* Question styles */
+.question {
+    flex: 1;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.question h2 {
+    font-size: 36px;
+    color: black;
+    margin: 0;
+    padding: 20px;
+    font-weight: bold;
+}
+
+.question1-image {
+    width: 500px;
+    height: auto;
+}
+
+/* Leaderboard content */
+.leaderboard h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#leaderboard-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
 }

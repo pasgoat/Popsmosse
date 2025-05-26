@@ -27,7 +27,7 @@
     position: fixed;
     bottom: 30px;
     left: 25px;
-    width: 64.5%; /* 2/3 of screen */
+    width: 64%; /* 2/3 of screen */
     background-color: #b2f2bb;
     padding: 20px;
     display: flex;

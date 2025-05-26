@@ -21,7 +21,13 @@
 .code-input {
     height: 47px;
     padding: 12px 15px;
+    flex: 1;                 /* Make both grow equally */
+    height: 60px;            /* Same height */
+    padding: 12px 15px;      /* Match padding */
+    box-sizing: border-box;
 }
+
+
 
 .answer {
     position: fixed;

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/logo.css">
     <link rel="stylesheet" href="../css/input.css">
     <link rel="stylesheet" href="../css/button.css">
-    <script src="../js/home.js"></script>
+    <link rel="stylesheet" href="../css/createquiz.css">
 </head>
 <body>
     <div class="home-page">
@@ -17,8 +17,10 @@
             <nav class="navbar">
                 <img src="../img/logo.png" alt="Popsmosse Logo" class="nav-logo">
                 <div class="nav-links">
+                    <span id="userDisplay" class="user-display"></span>
                     <a href="../html/home.html">Home</a>
-                    <a href="../html/signin.html">Sign in</a>
+                    <a href="#" id="logoutBtn" style="display: none;">Log out</a>
+                    <a href="#" id="openLogin">Login</a>
                     <a href="../html/createquiz.html">Create Quiz</a>
                 </div>
             </nav>
@@ -33,7 +35,7 @@
                 <div class="game-actions">
                     <div class="action-card">
                         <input type="text" placeholder="Enter username" class="username-input">
-                        <button class="create-game">Start New Quiz</button>
+                        <a href="play.html"><button class="create-game">Create Game</button></a>
                     </div>
                     
                     <div class="join-action">
@@ -45,6 +47,41 @@
                 </div>
             </div>
         </main>
+        <div class="modal-overlay" id="loginModal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+
+                <div class="modal-tabs">
+                    <button id="showLogin" class="active">Sign In</button>
+                    <button id="showSignup">Create Account</button>
+                </div>
+
+                <form class="login-form modal-form" id="loginForm">
+                    <input type="text" placeholder="Username" required />
+                    <input type="password" placeholder="Password" required />
+                    <button type="submit">Log In</button>
+                </form>
+
+                <form class="signup-form modal-form" id="signupForm" style="display: none;">
+                    <input type="text" placeholder="Username" required />
+                    <input type="email" placeholder="Email" required />
+                    <input type="password" placeholder="Password" required />
+                    <input type="password" placeholder="Confirm Password" required />
+                    <button type="submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+        <div class="modal-overlay" id="logoutConfirmModal" style="display: none;">
+            <div class="modal-content">
+                <h3>Are you sure you want to log out?</h3>
+                <div class="modal-buttons">
+                    <button id="confirmLogoutBtn">Yes, log out</button>
+                    <button id="cancelLogoutBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="../js/auth.js"></script>
+    <script src="../js/home.js"></script>
 </body>
 </html>

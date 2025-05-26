@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/logo.css" />
+  <link rel="stylesheet" href="../css/createquiz.css" />
+  <link rel="stylesheet" href="../css/button.css"/>
+</head>
+<body>
+  <div class="createquiz-page">
+    <header>
+      <nav class="navbar">
+        <img src="../img/logo.png" alt="Popsmosse Logo" class="nav-logo" />
+        <div class="nav-links">
+          <a href="../html/home.html">Home</a>
+          <a href="../html/signin.html">Sign in</a>
+          <a href="../html/createquiz.html">Create Quiz</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="quiz-layout">
+      <!-- Left column: quiz list -->
+      <section class="quiz-list">
+        <h2>Your Quizzes</h2>
+        <ul>
+          <li>History Quiz</li>
+          <li>Pop Culture Quiz</li>
+          <li>Geography Fun</li>
+          <!-- Later populated dynamically -->
+        </ul>
+        <button class="new-quiz-btn">+ New Quiz</button>
+      </section>
+
+      <!-- Right column: question creator -->
+      <section class="question-creator">
+          <div class="question-wrapper">
+            <h2>Create a Question</h2>
+            <div class="question-type-selector">
+                <div class="question-type-card selected" data-type="quote">
+                    📜 Quote Question
+                </div>
+                <div class="question-type-card" data-type="image">
+                    🖼️ Image Question
+                </div>
+            </div>
+            <form class="question-form">
+                    <!-- This area changes depending on selected type -->
+                <textarea class="quote-textarea"placeholder="Enter your quote question..." rows="4"></textarea>
+                    <!-- You can replace this dynamically with an image upload input if type is "image" -->
+                <input type="text" placeholder="Possible answers" />  
+                <button type="submit">Add to Quiz</button>
+            </form>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../js/createquiz.js"></script>
+</body>
+</html>
+
+

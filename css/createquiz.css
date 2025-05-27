@@ -181,3 +181,10 @@
   color: #888;
   margin-top: 10px;
 }
+
+.quiz-list ul li.selected {
+  background-color: #d0e7ff;
+  font-weight: bold;
+  border-left: 4px solid #2a74da;
+}
+

@@ -5,14 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", () => {
     const username = usernameInput.value.trim();
 
-    if (username !== "") {
       // Store the username locally
-      localStorage.setItem("username", username);
+      localStorage.setItem("currentUser", username);
 
       // Redirect to play page
-      window.location.href = "../html/play.html";
-    } else {
-      alert("Please enter a username.");
-    }
+      window.location.href = "./play.html";
   });
 });

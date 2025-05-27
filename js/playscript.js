@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     setupQuiz();
 
-    const username = getUsername();
-    const players = [{ name: username, score: 0 }];
-    updateLeaderboard(players);
 });
 
 
@@ -11,13 +8,13 @@ let currentQuestionIndex = 0;
 
 const questions = [
     { image: "question1.png", answer: "ozil" },
-    { image: "question2.png", answer: "jinping" },
     { image: "question3.png", answer: "djokovic" },
     { image: "question4.png", answer: "brady" },
     { image: "question6.png", answer: "sakho" },
-    { image: "question7.png", answer: "singe" },
-    { image: "question5.png", answer: "hitler" },
-    { image: "question8.png", answer: "jorges" }
+    { image: "question7.png", answer: "matteo" },
+    { image: "question5.png", answer: "felix" },
+    { image: "question2.png", answer: "jinping" },
+    { image: "question8.png", answer: "maxime" }
 ];
 
 function setupQuiz() {
@@ -92,10 +89,12 @@ function lockInput(inputElement, message) {
 }
 
 function getUsername() {
-    return localStorage.getItem("username") || "Player";
+    return localStorage.getItem("currentUser") || "Player";
 }
 
 function updateLeaderboard(players) {
+    console.log("Leaderboard update:", players);
+
     const list = document.getElementById("leaderboard-list");
     if (!list) return;
 
@@ -109,3 +108,21 @@ function updateLeaderboard(players) {
         list.appendChild(li);
     });
 }
+
+
+const socket = io();
+const urlParams = new URLSearchParams(window.location.search);
+const roomCode = urlParams.get('room');
+const username = getUsername();
+
+socket.emit('joinRoom', { username, roomCode });
+// You can now use this roomCode to sync game logic, send/receive answers, etc.
+// Save username before emitting
+localStorage.setItem("currentUser", username);
+
+socket.on('playerJoined', (players) => {
+    console.log("Updated player list:", players);
+    const formattedPlayers = players.map(name => ({ name, score: 0 }));
+    updateLeaderboard(formattedPlayers);
+});
+

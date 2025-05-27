@@ -24,9 +24,28 @@
     width: 100%;
 }
 
-.code-input, .join-game-btn {
+.join-game-btn {
     flex: 1;                 /* Make both grow equally */
     height: 60px;            /* Same height */
     padding: 12px 15px;      /* Match padding */
     box-sizing: border-box; /* Ensure padding doesn't break layout */
+}
+
+.new-quiz-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #ff7c7c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.new-quiz-btn:hover {
+  background-color: #e06161;
 }

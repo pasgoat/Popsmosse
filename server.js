@@ -15,26 +15,26 @@ const rooms = {}; // Store rooms in memory
 const QUESTION_TIME = 15000; // 15 seconds per question
 const ANSWER_REVEAL_TIME = 5000; // 5 seconds to show the correct answer
 const allQuestions = [
-    { image: "question1.png", answer: "ozil" },
-    { image: "question2.png", answer: "cantabria" },
-    { image: "question3.png", answer: "djokovic" },
-    { image: "question4.png", answer: "brady" },
-    { image: "question5.png", answer: "arcteryx" },
-    { image: "question6.png", answer: "yakko's world" },
-    { image: "question7.png", answer: "kosovo" },
-    { image: "question8.png", answer: "syria" },
-    { image: "question9.png", answer: "paramore" },
-    { image: "question10.png", answer: "4chan" },
-    { image: "question11.png", answer: "spiderman" },
-    { image: "question12.png", answer: "penn" },
-    { image: "question13.png", answer: "zendaya" },
-    { image: "question14.png", answer: "skoda" },
-    { image: "question15.png", answer: "the name of the rose" },
-    { image: "question16.png", answer: "mulan" },
-    { image: "question17.png", answer: "kill bill" },
-    { image: "question18.png", answer: "21 savage" },
-    { image: "question19.png", answer: "chili pepper" },
-    { image: "question20.png", answer: "markiplier" }
+    { image: "question1.png", answer: "ozil", question: "Who is this football player ?" },
+    { image: "question2.png", answer: "cantabria", question: "What is the name of this region in Spain ?" },
+    { image: "question3.png", answer: "djokovic", question: "Who is this tennis player ?" },
+    { image: "question4.png", answer: "brady", question: "Who is this American football player ?" },
+    { image: "question5.png", answer: "arcteryx", question: "What is the name of this outdoor clothing brand ?" },
+    { image: "question6.png", answer: "yakko's world", question: "Who sings this ?" },
+    { image: "question7.png", answer: "kosovo", question: "What is the name of this country ?" },
+    { image: "question8.png", answer: "syria", question: "In what country is this ?" },
+    { image: "question9.png", answer: "paramore", question: "What band are this lyrics from ?" },
+    { image: "question10.png", answer: "4chan", question: "What is the name of this website ?" },
+    { image: "question11.png", answer: "spiderman", question: "Who says this ?" },
+    { image: "question12.png", answer: "penn", question: "What is the name of this actor ?" },
+    { image: "question13.png", answer: "zendaya",  question: "Who is this actress ?" },
+    { image: "question14.png", answer: "skoda", question: "What is the name of this car brand ?" },
+    { image: "question15.png", answer: "the name of the rose", question: "What movie is this from ?" },
+    { image: "question16.png", answer: "mulan", question: "What Disney movie is this from ?" },
+    { image: "question17.png", answer: "kill bill", question: "What movie is this from ?" },
+    { image: "question18.png", answer: "21 savage", question: "Who is this rapper ?" },
+    { image: "question19.png", answer: "chili pepper", question: "What vegetable is this ?" },
+    { image: "question20.png", answer: "markiplier", question: "Who is this YouTuber ?" }
 ];
 
 function startQuiz(roomCode) {
@@ -48,6 +48,7 @@ function startQuiz(roomCode) {
 
         io.to(roomCode).emit('newQuestion', { 
             image: question.image,
+            question: question.question,
             duration: QUESTION_TIME / 1000
         });
 

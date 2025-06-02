@@ -52,17 +52,17 @@ function setupQuiz() {
     loadQuestion(questionTitle, questionImage);
 }
 
-function loadQuestion(titleElement, imageElement) {
-    if (currentQuestionIndex >= questions.length) {
-        console.log("No more questions");
-        return;
-    }
-    const current = questions[currentQuestionIndex];
-    const questionNumber = currentQuestionIndex + 1;
-    titleElement.textContent = `Who is this?`;
-    imageElement.src = `../questions/${current.image}`;
-    imageElement.alt = `Question ${questionNumber}`;
-}
+// function loadQuestion(titleElement, imageElement) {
+//     if (currentQuestionIndex >= questions.length) {
+//         console.log("No more questions");
+//         return;
+//     }
+//     const current = questions[currentQuestionIndex];
+//     const questionNumber = currentQuestionIndex + 1;
+//     titleElement.textContent = `Who is this?`;
+//     imageElement.src = `../questions/${current.image}`;
+//     imageElement.alt = `Question ${questionNumber}`;
+// }
 
 function checkAnswer(inputElement) {
     const userAnswer = inputElement.value.trim().toLowerCase();
@@ -119,12 +119,12 @@ socket.on('playerJoined', (players) => {
 let timerInterval;
 let timer = 0;
 
-socket.on('newQuestion', ({ image, duration }) => {
+socket.on('newQuestion', ({ image, question, duration }) => {
     const title = document.querySelector(".question h2");
     const imageEl = document.querySelector(".question img");
     const input = document.getElementById("answer");
 
-    title.textContent = "Who is this?";
+    title.textContent = question;
     imageEl.src = `../questions/${image}`;
     input.disabled = false;
     input.value = "";

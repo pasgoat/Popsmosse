@@ -3,18 +3,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-
 let currentQuestionIndex = 0;
 
 const questions = [
     { image: "question1.png", answer: "ozil" },
+    { image: "question2.png", answer: "cantabria" },
     { image: "question3.png", answer: "djokovic" },
     { image: "question4.png", answer: "brady" },
-    { image: "question6.png", answer: "sakho" },
-    { image: "question7.png", answer: "matteo" },
-    { image: "question5.png", answer: "felix" },
-    { image: "question2.png", answer: "jinping" },
-    { image: "question8.png", answer: "maxime" }
+    { image: "question5.png", answer: "arcteryx" },
+    { image: "question6.png", answer: "yakko's world" },
+    { image: "question7.png", answer: "kosovo" },
+    { image: "question8.png", answer: "syria" },
+    { image: "question9.png", answer: "paramore" },
+    { image: "question10.png", answer: "4chan" },
+    { image: "question11.png", answer: "spiderman" },
+    { image: "question12.png", answer: "penn" },
+    { image: "question13.png", answer: "zendaya" },
+    { image: "question14.png", answer: "skoda" },
+    { image: "question15.png", answer: "the name of the rose" },
+    { image: "question16.png", answer: "mulan" },
+    { image: "question17.png", answer: "kill bill" },
+    { image: "question18.png", answer: "21 savage" },
+    { image: "question19.png", answer: "chili pepper" },
+    { image: "question20.png", answer: "markiplier" }
 ];
 
 function setupQuiz() {
@@ -53,32 +64,13 @@ function loadQuestion(titleElement, imageElement) {
     imageElement.alt = `Question ${questionNumber}`;
 }
 
-function checkAnswer(inputElement, titleElement, imageElement) {
+function checkAnswer(inputElement) {
     const userAnswer = inputElement.value.trim().toLowerCase();
-    console.log(`User answered: "${userAnswer}"`);
+    if (!userAnswer) return;
 
-    if (currentQuestionIndex >= questions.length) {
-        console.log("Quiz complete");
-        return;
-    }
+    socket.emit('submitAnswer', { roomCode, username, answer: userAnswer });
 
-    const correctAnswer = questions[currentQuestionIndex].answer.toLowerCase();
-    const pattern = new RegExp(`\\b${correctAnswer}\\b`, "i");
-
-    if (pattern.test(userAnswer)) {
-        console.log("Correct answer!");
-        currentQuestionIndex++;
-
-        if (currentQuestionIndex < questions.length) {
-            inputElement.value = "";
-            loadQuestion(titleElement, imageElement);
-        } else {
-            lockInput(inputElement, "You found all the correct answers!");
-        }
-    } else {
-        console.log("Incorrect answer, try again.");
-        inputElement.value = "";
-    }
+    inputElement.value = "";
 }
 
 function lockInput(inputElement, message) {
@@ -116,13 +108,57 @@ const roomCode = urlParams.get('room');
 const username = getUsername();
 
 socket.emit('joinRoom', { username, roomCode });
-// You can now use this roomCode to sync game logic, send/receive answers, etc.
-// Save username before emitting
+
 localStorage.setItem("currentUser", username);
 
 socket.on('playerJoined', (players) => {
-    console.log("Updated player list:", players);
-    const formattedPlayers = players.map(name => ({ name, score: 0 }));
-    updateLeaderboard(formattedPlayers);
+    console.log("✅ Updated leaderboard:", players);
+    updateLeaderboard(players);
 });
 
+let timerInterval;
+let timer = 0;
+
+socket.on('newQuestion', ({ image, duration }) => {
+    const title = document.querySelector(".question h2");
+    const imageEl = document.querySelector(".question img");
+    const input = document.getElementById("answer");
+
+    title.textContent = "Who is this?";
+    imageEl.src = `../questions/${image}`;
+    input.disabled = false;
+    input.value = "";
+    input.style.color = "";
+    input.focus();
+
+    timer = duration;
+    updateTimerDisplay(timer);
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        timer--;
+        updateTimerDisplay(timer);
+        if (timer <= 0) {
+            clearInterval(timerInterval);
+            input.disabled = true;
+        }
+    }, 1000);
+});
+
+socket.on('revealAnswer', ({ answer }) => {
+    const input = document.getElementById("answer");
+    input.value = `Answer: ${answer}`;
+    input.style.color = "green";
+    input.disabled = true;
+});
+
+function updateTimerDisplay(time) {
+    let timerDiv = document.getElementById("timer");
+    if (!timerDiv) {
+        timerDiv = document.createElement("div");
+        timerDiv.id = "timer";
+        timerDiv.style.fontWeight = "bold";
+        document.body.prepend(timerDiv);
+    }
+    timerDiv.textContent = `⏱ Time left: ${time}s`;
+}

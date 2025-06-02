@@ -3,7 +3,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// Serve static files (HTML, JS, CSS, etc.)
 
 app.use(express.static(__dirname));
 app.use(express.static(__dirname + '/css'));
@@ -11,9 +10,9 @@ app.use(express.static(__dirname + '/js'));
 app.use(express.static(__dirname + '/questions'));
 app.use(express.static(__dirname + '/html'));
 
-const rooms = {}; // Store rooms in memory
-const QUESTION_TIME = 15000; // 15 seconds per question
-const ANSWER_REVEAL_TIME = 5000; // 5 seconds to show the correct answer
+const rooms = {};
+const QUESTION_TIME = 15000;
+const ANSWER_REVEAL_TIME = 5000;
 const allQuestions = [
     { image: "question1.png", answer: "ozil", question: "Who is this football player ?" },
     { image: "question2.png", answer: "cantabria", question: "What is the name of this region in Spain ?" },
@@ -44,7 +43,7 @@ function startQuiz(roomCode) {
     function sendNextQuestion() {
         const question = allQuestions[Math.floor(Math.random() * allQuestions.length)];
         room.currentQuestion = question;
-        room.answeredPlayers = new Set(); // 🔄 Reset for new question
+        room.answeredPlayers = new Set();
 
         io.to(roomCode).emit('newQuestion', { 
             image: question.image,
@@ -69,7 +68,6 @@ function startQuiz(roomCode) {
 io.on('connection', (socket) => {
     console.log('✅ A user connected');
 
-    // Create a new room
     socket.on('createRoom', (username) => {
     const roomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
     rooms[roomCode] = {
@@ -81,7 +79,6 @@ io.on('connection', (socket) => {
     socket.emit('roomCreated', roomCode);
     });
 
-    //Join an existing room
     socket.on('joinRoom', ({ username, roomCode }) => {
     if (rooms[roomCode]) {
         const existingPlayer = rooms[roomCode].players.find(p => p.name === username);
@@ -92,7 +89,7 @@ io.on('connection', (socket) => {
         socket.join(roomCode);
         io.to(roomCode).emit('playerJoined', rooms[roomCode].players);
         socket.emit('roomJoined', roomCode);
-        // Only start if first player joined
+
         if (rooms[roomCode].players.length === 1) {
             startQuiz(roomCode);
         }
@@ -107,7 +104,6 @@ io.on('connection', (socket) => {
     const correctAnswer = room.currentQuestion.answer.toLowerCase();
     const userAnswer = answer.toLowerCase();
 
-    // ✅ Prevent multiple submissions for the same question
     if (room.answeredPlayers && room.answeredPlayers.has(username)) {
         return;
     }
@@ -116,7 +112,7 @@ io.on('connection', (socket) => {
         const player = room.players.find(p => p.name === username);
         if (player) {
             player.score += 10;
-            room.answeredPlayers.add(username); // 🚫 Mark as answered
+            room.answeredPlayers.add(username);
             io.to(roomCode).emit('playerJoined', room.players);
             console.log(`✅ ${username} answered correctly!`);
         }
@@ -127,7 +123,6 @@ io.on('connection', (socket) => {
 
     });
 
-    // Handle answer submission
     socket.on('correctAnswer', ({ roomCode, username }) => {
     if (rooms[roomCode]) {
         const player = rooms[roomCode].players.find(p => p.name === username);
@@ -144,11 +139,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('❌ A user disconnected');
-        // (Optional: handle player removal and room cleanup here)
     });
 });
 
-// Allow connections from any device on the network
 http.listen(3000, '0.0.0.0', () => {
     console.log('🚀 Server running on your local network');
     const os = require('os');
@@ -158,7 +151,6 @@ http.listen(3000, '0.0.0.0', () => {
 
     for (const name of Object.keys(interfaces)) {
         for (const iface of interfaces[name]) {
-        // Skip over internal (i.e. 127.0.0.1) and non-IPv4 addresses
             if (iface.family === 'IPv4' && !iface.internal) {
                 serverIP = iface.address;
                 break;
